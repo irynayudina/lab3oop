@@ -28,4 +28,6 @@ void addingSheet(BOOK& b);
 
 void useLeftSidedFunc(BOOK& b);
 
+void printBookWithInfo(BOOKwrapper& bw, BOOK& b);
+
 void closseBook(BOOK& b);

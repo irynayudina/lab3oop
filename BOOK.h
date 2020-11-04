@@ -160,6 +160,9 @@ public:
 		set_content_length(size);
 	}
 	void get_value__of_all_book() { SHEET* get_content(); }
+	BOOK* get_book() {
+		return this;
+	}
 	void add_value(SHEET& value) {
 		SHEET* temp_sheet = new SHEET[this->content_length];
 		for (int i = 0; i < this->content_length; i++) {

@@ -18,4 +18,7 @@ public:
 	int get_num_of_changes_in_the_book() {
 		return num_of_changes_in_the_book;
 	}
+	void decr_num_of_changes_in_the_book() {
+		--num_of_changes_in_the_book;
+	}
 };

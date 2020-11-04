@@ -46,115 +46,117 @@ void name_enterer( int& count, char*& new_name)
 
 
 
-void openBook(BOOK& b)
+void openBook(BOOKwrapper& bw)
 {
-    b.open();
-    cout << b << endl;
+    bw->open();
 }
-void closseBook(BOOK& b)
+void closseBook(BOOKwrapper& b)
 {
-    b.close();
-    cout << b << endl;
+    b->close();
 }
-void renameBook(BOOK& b)
+void renameBook(BOOKwrapper& b)
 {
     int count = 0;
     char* new_name = NULL;
     cout << "enter the name of the book without spaces:" << endl;
     name_enterer(count, new_name);
-    b.change_name(count, new_name);
-    cout << b << endl;
+    b->change_name(count, new_name);
 }
 
-void openNSheet(BOOK& b)
+void openNSheet(BOOKwrapper& b)
 {
     int nums;
     cout << "enter the number of the sheet" << endl;
     cin >> nums;
-    if (nums <0 || nums > b.get_content_length()) {
+    if (nums <0 || nums > b->get_content_length()) {
         nums = 0;
     }
-    b.get_content()[nums].open();
-    cout << b << endl;
+    b.decr_num_of_changes_in_the_book();
+    b->get_content()[nums].open();
 }
 
-void closeNSheet(BOOK& b)
+void closeNSheet(BOOKwrapper& b)
 {
     int nums;
     cout << "enter the number of the sheet" << endl;
     cin >> nums;
-    if (nums <0 || nums > b.get_content_length()) {
+    if (nums <0 || nums > b->get_content_length()) {
         nums = 0;
     }
-    b.get_content()[nums].close();
-    cout << b << endl;
+    b.decr_num_of_changes_in_the_book();
+    b->get_content()[nums].close();
 }
 
-void renameNSheet(BOOK& b)
+void renameNSheet(BOOKwrapper& b)
 {
     int count = 0;
     char* new_name = NULL;
     int num;
     cout << "enter the number of the sheet" << endl;
     cin >> num;
-    if (num <0 || num > b.get_content_length()) {
+    if (num <0 || num > b->get_content_length()) {
         num = 0;
     }
+    b.decr_num_of_changes_in_the_book();
     cout << "enter the name of the sheet without spaces:" << endl;
     name_enterer(count, new_name);
-    b.get_content()[num].change_name(count, new_name);
-    cout << b << endl;
+    b->get_content()[num].change_name(count, new_name);
 }
 
-void opennkCellFromjSheet(BOOK& b)
+void opennkCellFromjSheet(BOOKwrapper& b)
 {
     int j, n, k;
-    cell_selector(j, n, k, b);
-    b.get_content()[j][n][k].open();
-    cout << b << endl;
+    BOOK bk = *(b->get_book());
+    b.decr_num_of_changes_in_the_book();
+    cell_selector(j, n, k, bk);
+    b->get_content()[j][n][k].open();
 }
 
-void closenkCellFromjSheet(BOOK& b)
+void closenkCellFromjSheet(BOOKwrapper& b)
 {
     int j, n, k;
-    cell_selector(j, n, k, b);
-    b.get_content()[j][n][k].close();
-    cout << b << endl;
+    BOOK bk = *(b->get_book());
+    b.decr_num_of_changes_in_the_book();
+    cell_selector(j, n, k, bk);
+    b->get_content()[j][n][k].close();
 }
 
-void renamenkCellFromjSheet(BOOK& b)
+void renamenkCellFromjSheet(BOOKwrapper& b)
 {
     int j, n, k;
-    cell_selector(j, n, k, b);
+    BOOK bk = *(b->get_book());
+    b.decr_num_of_changes_in_the_book();
+    cell_selector(j, n, k, bk);
     int count = 0;
     char* new_name = NULL;
     name_enterer(count, new_name);
-    b.get_content()[j][n][k].change_name(count, new_name);
-    cout << b << endl;
+    b->get_content()[j][n][k].change_name(count, new_name);
 }
 
-void putValuenkCelljSheet(BOOK& b)
+void putValuenkCelljSheet(BOOKwrapper& b)
 {
     int j, n, k;
-    cell_selector(j, n, k, b);
+    BOOK bk = *(b->get_book());
+    b.decr_num_of_changes_in_the_book();
+    cell_selector(j, n, k, bk);
     int count = 0;
     char* new_name = NULL;
     name_enterer(count, new_name);
-    b.get_content()[j][n][k].put_value(count, new_name);
-    cout << b << endl;
+    b->get_content()[j][n][k].put_value(count, new_name);
 }
 
-void getValuenkCelljSheet(BOOK& b)
+void getValuenkCelljSheet(BOOKwrapper& b)
 {
 
     int j, n, k;
-    cell_selector(j, n, k, b);
+    BOOK bk = *(b->get_book());
+    b.decr_num_of_changes_in_the_book();
+    cell_selector(j, n, k, bk);
     int count = 0;
     char* new_name = NULL;
-    cell_selector(j, n, k, b);
+    cell_selector(j, n, k, bk);
     name_enterer(count, new_name);
-    b.get_content()[j][n][k].get_value();
-    cout << b << endl;
+    b->get_content()[j][n][k].get_value();
 }
 
 void saveBookToDisk(BOOK& b)
@@ -170,7 +172,7 @@ void getBookFromDisk(BOOK& b)
 }
 
 
-void addingSheet(BOOK& b)
+void addingSheet(BOOKwrapper& b)
 {
     SHEET s2;
     char* nameofcell;
@@ -188,20 +190,29 @@ void addingSheet(BOOK& b)
     cout << s1 << endl;
     s2 = s1;
     cout << s2 << endl;*/
-    b.add_value(s2);
-    cout << b << endl;
+    b->add_value(s2);
 }
 
-void useLeftSidedFunc(BOOK& b)
+void useLeftSidedFunc(BOOKwrapper& b)
 {
     int s, r, c, sr;
-    cell_selector(s, r, c, b);
+    BOOK bk = *(b->get_book());
+    b.decr_num_of_changes_in_the_book();
+    cell_selector(s, r, c, bk);
     cout << "number of sheet to get the first cell from: " << endl;
     cin >> sr;
-    if (sr <0 || sr > b.get_content_length() - 1) {
+    if (sr <0 || sr > b->get_content_length() - 1) {
         sr = 0;
     }
-    b[s].changeCell(r, c) = b[sr][0][0];
+    b.decr_num_of_changes_in_the_book();
+    bk[s].changeCell(r, c) = bk[sr][0][0];
+}
+
+void printBookWithInfo(BOOKwrapper& bw, BOOK& b)
+{
+    cout << "number of changes ever made to the book: " << endl;
+    cout << bw.get_num_of_changes_in_the_book() << endl;
+    cout << "the book: " << endl;
     cout << b << endl;
 }
 
@@ -210,8 +221,6 @@ int main()
     std::cout << "Hello World!\n";
     BOOK b;
     BOOKwrapper bw(&b);
-    bw->close();
-    cout << bw.get_num_of_changes_in_the_book() << endl;
     cout << b << endl;
     int choise = 0;
     while (choise != 14) {
@@ -232,40 +241,41 @@ int main()
         cout << "14 - exit this part of menu" << endl;
         cout << "15 - add new sheet to the book" << endl;
         cout << "16 - change the cell using left sided function f(row, coll) = cell" << endl;
+        cout << "17 - print book" << endl;
         cin >> choise;
         switch (choise) {
         case 1:
-            openBook(b);
+            openBook(bw);
             break;
         case 2:
-            closseBook(b);
+            closseBook(bw);
             break;
         case 3:
-            renameBook(b);
+            renameBook(bw);
             break;
         case 4:
-            openNSheet(b);
+            openNSheet(bw);
             break;
         case 5:
-            closeNSheet(b);
+            closeNSheet(bw);
             break;
         case 6:
-            renameNSheet(b);
+            renameNSheet(bw);
             break;
         case 7:
-            opennkCellFromjSheet(b);
+            opennkCellFromjSheet(bw);
             break;
         case 8:
-            closenkCellFromjSheet(b);
+            closenkCellFromjSheet(bw);
             break;
         case 9:
-            renamenkCellFromjSheet(b);
+            renamenkCellFromjSheet(bw);
             break;
         case 10:
-            putValuenkCelljSheet(b);
+            putValuenkCelljSheet(bw);
             break;
         case 11:
-            getValuenkCelljSheet(b);
+            getValuenkCelljSheet(bw);
             break;
 
         case 12:
@@ -276,10 +286,13 @@ int main()
             getBookFromDisk(b);
             break;
         case 15:
-            addingSheet(b);
+            addingSheet(bw);
             break;
         case 16:
-            useLeftSidedFunc(b);
+            useLeftSidedFunc(bw);
+            break;
+        case 17:
+            printBookWithInfo(bw, b);
             break;
         }
     }
