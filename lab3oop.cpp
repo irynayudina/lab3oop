@@ -1,6 +1,6 @@
 ﻿
 #include <iostream>
-#include "BOOK.h";
+#include "BOOKwrapper.h";
 #include "lab3oop.h"
 using namespace std;
 
@@ -209,6 +209,9 @@ int main()
 {
     std::cout << "Hello World!\n";
     BOOK b;
+    BOOKwrapper bw(&b);
+    bw->close();
+    cout << bw.get_num_of_changes_in_the_book() << endl;
     cout << b << endl;
     int choise = 0;
     while (choise != 14) {

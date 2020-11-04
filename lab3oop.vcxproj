@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BOOK.h" />
+    <ClInclude Include="BOOKwrapper.h" />
     <ClInclude Include="CELL.h" />
     <ClInclude Include="CELLCOLUMNS.h" />
     <ClInclude Include="lab3oop.h" />
