@@ -44,20 +44,20 @@ public:
 		this->content_length = _content_length;
 		this->name_length = _name_length;
 	}
-	CELL(const CELL& other)
+	CELL(CELL& other)
 	{
 		if (this->protection == false) {
-			this->name = new char[other.name_length];
-			for (int i = 0; i < other.name_length; i++) {
-				this->name[i] = other.name[i];
+			this->name = new char[other.get_name_length()];
+			for (int i = 0; i < other.get_name_length(); i++) {
+				this->name[i] = other.get_name()[i];
 			}
-			this->content = new char[other.content_length];
-			for (int i = 0; i < other.content_length; i++) {
-				this->content[i] = other.content[i];
+			this->content = new char[other.get_content_length()];
+			for (int i = 0; i < other.get_content_length(); i++) {
+				this->content[i] = other.get_content()[i];
 			}
-			this->protection = other.protection;
-			this->content_length = other.content_length;
-			this->name_length = other.name_length;
+			this->protection = other.get_protection();
+			this->content_length = other.get_content_length();
+			this->name_length = other.get_name_length();
 		}
 	}
 	~CELL() { delete[] name; delete[] content; }
@@ -73,25 +73,25 @@ public:
 			throw exception("const Matrix subscript out of bounds");
 		return content[col];
 	}
-	CELL& operator=(const CELL& other)
+	CELL& operator=(CELL& other)
 	{
 		if (this->protection == false) {
-			this->protection = other.protection;
-			this->content_length = other.content_length;
-			this->name_length = other.name_length;
+			this->protection = other.get_protection();
+			this->content_length = other.get_content_length();
+			this->name_length = other.get_name_length();
 			if (this->name != NULL) {
 				delete[] this->name;
 			}
-			this->name = new char[other.name_length];
-			for (int i = 0; i < other.name_length; i++) {
-				this->name[i] = other.name[i];
+			this->name = new char[other.get_name_length()];
+			for (int i = 0; i < other.get_name_length(); i++) {
+				this->name[i] = other.get_name()[i];
 			}
 			if (this->content != NULL) {
 				delete[] this->content;
 			}
-			this->content = new char[other.content_length];
-			for (int i = 0; i < other.content_length; i++) {
-				this->content[i] = other.content[i];
+			this->content = new char[other.get_content_length()];
+			for (int i = 0; i < other.get_content_length(); i++) {
+				this->content[i] = other.get_content()[i];
 			}
 		}
 		return *this;

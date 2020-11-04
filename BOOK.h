@@ -37,21 +37,21 @@ public:
 		this->content_length = _content_length;
 		this->name_length = _name_length;
 	}
-	BOOK(const BOOK& other)
+	BOOK( BOOK& other)
 	{
 		if (this->protection == false)
 		{
-			this->name = new char[other.name_length];
-			for (int i = 0; i < other.name_length; i++) {
-				this->name[i] = other.name[i];
+			this->name = new char[other.get_name_length()];
+			for (int i = 0; i < other.get_name_length(); i++) {
+				this->name[i] = other.get_name()[i];
 			}
-			this->content = new SHEET[other.content_length];
-			for (int i = 0; i < other.content_length; i++) {
-				this->content[i] = other.content[i];
+			this->content = new SHEET[other.get_content_length()];
+			for (int i = 0; i < other.get_content_length(); i++) {
+				this->content[i] = other.get_content()[i];
 			}
-			this->protection = other.protection;
-			this->content_length = other.content_length;
-			this->name_length = other.name_length;
+			this->protection = other.get_protection();
+			this->content_length = other.get_content_length();
+			this->name_length = other.get_name_length();
 		}
 	}
 	~BOOK() { delete[] name; delete[] content; }
@@ -67,26 +67,26 @@ public:
 			throw exception("const Matrix subscript out of bounds");
 		return content[col];
 	}
-	BOOK& operator=(const BOOK& other)
+	BOOK& operator=(BOOK& other)
 	{
 		if (this->protection == false)
 		{
-			this->protection = other.protection;
-			this->content_length = other.content_length;
-			this->name_length = other.name_length;
+			this->protection = other.get_protection();
+			this->content_length = other.get_content_length();
+			this->name_length = other.get_name_length();
 			if (this->name != NULL) {
 				delete[] this->name;
 			}
-			this->name = new char[other.name_length];
-			for (int i = 0; i < other.name_length; i++) {
-				this->name[i] = other.name[i];
+			this->name = new char[other.get_name_length()];
+			for (int i = 0; i < other.get_name_length(); i++) {
+				this->name[i] = other.get_name()[i];
 			}
 			if (this->content != NULL) {
 				delete[] this->content;
 			}
-			this->content = new SHEET[other.content_length];
-			for (int i = 0; i < other.content_length; i++) {
-				this->content[i] = other.content[i];
+			this->content = new SHEET[other.get_content_length()];
+			for (int i = 0; i < other.get_content_length(); i++) {
+				this->content[i] = other.get_content()[i];
 			}
 		}
 		return *this;
@@ -160,10 +160,26 @@ public:
 		set_content_length(size);
 	}
 	void get_value__of_all_book() { SHEET* get_content(); }
-	void add_value(SHEET value) {
-		SHEET* temp_sheet = this->content;
-		int new_size = this->content_length + 1;
+	void add_value(SHEET& value) {
+		SHEET* temp_sheet = new SHEET[this->content_length];
+		for (int i = 0; i < this->content_length; i++) {
+			temp_sheet[i] = this->content[i];/*
+			cout << "inside copying sheets to temp: temps" << endl;
+			cout << temp_sheet[i] << endl;*/
+			/*cout << "inside copying sheets to temp: old sheets " << endl;
+			cout << content[i] << endl;*/
+		}
+		this->content_length = this->content_length + 1;
 		delete[] this->content;
-		set_content(new_size, temp_sheet);
+		this->content = new SHEET[this->content_length ];
+		/*cout << "content lengthh count of sheets : " << this->content_length << endl;*/
+		for (int i = 0; i < (this->content_length -1); i++) {
+			this->content[i] = temp_sheet[i];/*
+			cout << "inside copying sheets to temp: news" << endl;
+			cout << this->content[i] << endl;*/
+		}
+		/*cout << "value that is about ot be inserted: " << endl;
+		cout << value << endl;*/
+		this->content[this->content_length - 1] = value;
 	}
 };

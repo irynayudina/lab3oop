@@ -24,4 +24,8 @@ void saveBookToDisk(BOOK& b);
 
 void getBookFromDisk(BOOK& b);
 
+void addingSheet(BOOK& b);
+
+void useLeftSidedFunc(BOOK& b);
+
 void closseBook(BOOK& b);

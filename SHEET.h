@@ -39,20 +39,20 @@ public:
 		this->content_length = _content_length;
 		this->name_length = _name_length;
 	}
-	SHEET(const SHEET& other)
+	SHEET(SHEET& other)
 	{
 		if (this->protection == false) {
-			this->name = new char[other.name_length];
-			for (int i = 0; i < other.name_length; i++) {
-				this->name[i] = other.name[i];
+			this->name = new char[other.get_name_length()];
+			for (int i = 0; i < other.get_name_length(); i++) {
+				this->name[i] = other.get_name()[i];
 			}
-			this->content = new CELLCOLUMNS[other.content_length];
-			for (int i = 0; i < other.content_length; i++) {
-				this->content[i] = other.content[i];
+			this->content = new CELLCOLUMNS[other.get_content_length()];
+			for (int i = 0; i < other.get_content_length(); i++) {
+				this->content[i] = other.get_content()[i];
 			}
-			this->protection = other.protection;
-			this->content_length = other.content_length;
-			this->name_length = other.name_length;
+			this->protection = other.get_protection();
+			this->content_length = other.get_content_length();
+			this->name_length = other.get_name_length();
 		}
 	}
 	~SHEET() { delete[] name; delete[] content; }
@@ -68,25 +68,25 @@ public:
 			throw exception("const Matrix subscript out of bounds");
 		return content[col];
 	}
-	SHEET& operator=(const SHEET& other)
+	SHEET& operator=( SHEET& other)//not const to use get methods
 	{
 		if (this->protection == false) {
-			this->protection = other.protection;
-			this->content_length = other.content_length;
-			this->name_length = other.name_length;
+			this->protection = other.get_protection();
+			this->content_length = other.get_content_length();
+			this->name_length = other.get_name_length();
 			if (this->name != NULL) {
 				delete[] this->name;
 			}
-			this->name = new char[other.name_length];
-			for (int i = 0; i < other.name_length; i++) {
-				this->name[i] = other.name[i];
+			this->name = new char[name_length];
+			for (int i = 0; i < name_length; i++) {
+				this->name[i] = other.get_name()[i];
 			}
 			if (this->content != NULL) {
 				delete[] this->content;
 			}
-			this->content = new CELLCOLUMNS[other.content_length];
-			for (int i = 0; i < other.content_length; i++) {
-				this->content[i] = other.content[i];
+			this->content = new CELLCOLUMNS[content_length];
+			for (int i = 0; i < content_length; i++) {
+				this->content[i] = other.get_content()[i];
 			}
 		}
 		return *this;
@@ -160,7 +160,7 @@ public:
 	void get_value() { CELLCOLUMNS* get_content(); }
 	CELL& changeCell(int i = 2, int j = 5) {
 		if (i < content_length) {
-			if (j < content[i].getCols()) {
+			if (j < content[i].get_cols_()) {
 				return content[i][j];
 			}
 		}
