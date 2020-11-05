@@ -150,7 +150,6 @@ public:
 	void close() { set_protection(true); }
 	void change_name(int size, char* value)
 	{
-		//int size = sizeof(value);
 		this->set_name(size, value);
 		set_name_length(size);
 	}
@@ -166,23 +165,14 @@ public:
 	void add_value(SHEET& value) {
 		SHEET* temp_sheet = new SHEET[this->content_length];
 		for (int i = 0; i < this->content_length; i++) {
-			temp_sheet[i] = this->content[i];/*
-			cout << "inside copying sheets to temp: temps" << endl;
-			cout << temp_sheet[i] << endl;*/
-			/*cout << "inside copying sheets to temp: old sheets " << endl;
-			cout << content[i] << endl;*/
+			temp_sheet[i] = this->content[i];
 		}
 		this->content_length = this->content_length + 1;
 		delete[] this->content;
 		this->content = new SHEET[this->content_length ];
-		/*cout << "content lengthh count of sheets : " << this->content_length << endl;*/
 		for (int i = 0; i < (this->content_length -1); i++) {
-			this->content[i] = temp_sheet[i];/*
-			cout << "inside copying sheets to temp: news" << endl;
-			cout << this->content[i] << endl;*/
+			this->content[i] = temp_sheet[i];
 		}
-		/*cout << "value that is about ot be inserted: " << endl;
-		cout << value << endl;*/
 		this->content[this->content_length - 1] = value;
 	}
 };
